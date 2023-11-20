@@ -1,4 +1,5 @@
-const { selectApiTopics } = require('../models/models');
+const { selectApiTopics, selectApi} = require('../models/models');
+const endPoints = require('../endpoints.json')
 
 exports.getApiTopics = (req, res, next) => {
   selectApiTopics()
@@ -7,6 +8,12 @@ exports.getApiTopics = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getApi = (req, res, next) => {
+    selectApi()
+        res.status(200).send(endPoints)
+    }
+
 
 exports.handle404 = (req, res) => {
     res.status(404).send({ msg: 'path not found'})

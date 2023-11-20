@@ -1,4 +1,5 @@
 const db = require('../db/connection');
+const endPoints = require('../endpoints.json')
 
 exports.selectApiTopics = () => {
   return db.query(`SELECT * FROM topics`)
@@ -6,3 +7,7 @@ exports.selectApiTopics = () => {
     return result.rows;
   });
 };
+
+exports.selectApi = () => {
+    return endPoints
+}
