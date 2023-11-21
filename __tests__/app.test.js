@@ -33,21 +33,26 @@ describe('GET /api/topics', () => {
   });
 });
 
-// describe("GET /api/articles/:article_id", () => {
-//     test("201: responds with an article by its id", () => {
-//       const newPrice = { cost_at_auction: 500 };
-//       return request(app)
-//     //     .get("/api/treasures/1")
-//     //     .send(newPrice)
-//     //     .expect(201)
-//     //     .then(({ body }) => {
-//     //       expect(body.treasures).toMatchObject({
-//     //         treasure_name: "treasure-a",
-//     //         colour: "turquoise",
-//     //         age: 200,
-//     //         cost_at_auction: 500,
-//     //         shop_id: 1,
-//     //         treasure_id: 1,
-//     //       });
-//     })
-// })
+describe.skip('GET /api/articles/:article_id', () => {
+  test('200: responds with an article by its id', () => {
+    return request(app)
+      .get('/api/articles/1')
+      .expect(200)
+      .then(({ body }) => {
+        const {articles} = body
+        expect(articles).toHaveLength(13)
+        articles.forEach((article) => {
+            expect(article).toMatchObject({
+                author: expect.any(String),
+                title: expect.any(String),
+                article_id: expect.any(Number),
+                body: expect.any(String),
+                topic: expect.any(String),
+                created_at: expect.any(Number),
+                votes: expect.any(Number),
+                article_image_url: expect.any(String),
+            })
+        })
+      });
+  });
+});

@@ -6,7 +6,7 @@ const app = express()
 
 app.get('/api/topics', getApiTopics)
 
-//app.get('/api/articles/:article_id', getArticlesById)
+app.get('/api/articles/:article_id', getArticlesById)
 
 app.all('*', handle404)
 
