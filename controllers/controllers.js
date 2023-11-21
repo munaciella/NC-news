@@ -9,11 +9,10 @@ exports.getApiTopics = (req, res, next) => {
 };
 
 exports.getArticlesById = (req, res, next) => {
-    const { body } = req.params
-    selectArticlesById(articles)
-    .then((articles) => {
-        console.log(articles);
-        res.status(200).send({ articles })
+    const { article_id } = req.params
+    selectArticlesById(article_id)
+    .then((article) => {
+        res.status(200).send({ article })
     })
     .catch(next)
 }

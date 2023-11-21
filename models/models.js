@@ -7,9 +7,12 @@ exports.selectApiTopics = () => {
   });
 };
 
-exports.selectArticlesById = (id) => {
-    return db.query(`SELECT * FROM articles WHERE article_id = $1;`, [id])
+exports.selectArticlesById = (article_id) => {
+    return db.query(`SELECT * FROM articles WHERE article_id = $1`, [article_id])
     .then(({rows}) => {
-        return rows
+        if (!rows.length) {
+            return Promise.reject({status: 404, msg: 'path not found'})
+        }
+        return rows[0]
     })
 }
