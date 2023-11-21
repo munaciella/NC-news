@@ -32,3 +32,22 @@ describe('GET /api/topics', () => {
       });
   });
 });
+
+// describe("GET /api/articles/:article_id", () => {
+//     test("201: responds with an article by its id", () => {
+//       const newPrice = { cost_at_auction: 500 };
+//       return request(app)
+//     //     .get("/api/treasures/1")
+//     //     .send(newPrice)
+//     //     .expect(201)
+//     //     .then(({ body }) => {
+//     //       expect(body.treasures).toMatchObject({
+//     //         treasure_name: "treasure-a",
+//     //         colour: "turquoise",
+//     //         age: 200,
+//     //         cost_at_auction: 500,
+//     //         shop_id: 1,
+//     //         treasure_id: 1,
+//     //       });
+//     })
+// })
