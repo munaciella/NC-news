@@ -1,5 +1,5 @@
 const express = require('express');
-const { getApiTopics, handle404, getArticlesById } = require('./controllers/controllers');
+const { getApi, getApiTopics, handle404, getArticlesById } = require('./controllers/controllers');
 const { handleCustomErrors, handleServerErrors, handlePsqlErrors } = require('./errors');
 
 const app = express()
