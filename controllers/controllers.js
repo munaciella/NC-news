@@ -1,4 +1,10 @@
-const { selectApiTopics, selectApiArticles } = require('../models/models');
+const {
+  selectApiTopics,
+  selectArticlesById,
+  selectApiArticles
+  selectCommentsByArticleId,
+} = require('../models/models');
+const endPoints = require('../endpoints.json');
 const endPoints = require('../endpoints.json')
 
 exports.getApiTopics = (req, res, next) => {
@@ -10,17 +16,28 @@ exports.getApiTopics = (req, res, next) => {
 };
 
 exports.getArticlesById = (req, res, next) => {
-    const { article_id } = req.params
-    selectArticlesById(article_id)
+  const { article_id } = req.params;
+  selectArticlesById(article_id)
     .then((article) => {
-        res.status(200).send({ article })
+      res.status(200).send({ article });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 exports.getApi = (req, res, next) => {
-        res.status(200).send(endPoints)
-    }
+  res.status(200).send(endPoints);
+};
+
+exports.getCommentsByArticleId = (req, res, next) => {
+  const { article_id } = req.params;
+  const commentsPromises = [selectCommentsByArticleId(article_id), selectArticlesById(article_id)]
+  return Promise.all(commentsPromises)
+    .then((resolvedPromises) => {
+        const comments = resolvedPromises[0]
+      res.status(200).send({ comments });
+    })
+    .catch(next);
+};
 
 exports.getApiArticles = (req, res, next) => {
     selectApiArticles()
@@ -31,5 +48,5 @@ exports.getApiArticles = (req, res, next) => {
 }
 
 exports.handle404 = (req, res) => {
-    res.status(404).send({ msg: 'path not found'})
-}
+  res.status(404).send({ msg: 'path not found' });
+};
