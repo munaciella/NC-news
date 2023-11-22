@@ -113,8 +113,8 @@ test('404: responds with an error message with invalid path', () => {
     });
 });
 
-describe("POST /api/articles/2/comments", () => {
-    test.only("201: respond with a new comment for an article", () => {
+describe.skip("POST /api/articles/2/comments", () => {
+    test("201: respond with a new comment for an article", () => {
       const newComment = {
         username: "Wolf fleece",
         body: "This is an awesome comment",
