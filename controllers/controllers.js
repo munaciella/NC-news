@@ -1,4 +1,4 @@
-const { selectApiTopics, selectApiArticles, selectArticlesById } = require('../models/models');
+const { selectApiTopics, selectApiArticles, selectArticlesById, insertNewCommentById } = require('../models/models');
 const endPoints = require('../endpoints.json')
 
 exports.getApiTopics = (req, res, next) => {
@@ -26,6 +26,17 @@ exports.getApiArticles = (req, res, next) => {
     selectApiArticles()
     .then((articles) => {
         res.status(200).send({ articles })
+    })
+    .catch(next)
+}
+
+exports.postNewCommentById = (req, res, next) => {
+    const newComment = req.body
+    console.log(req.body);
+    console.log(newComment);
+    insertNewCommentById(newComment)
+    .then((comments) => {
+        res.status(201).send({comments})
     })
     .catch(next)
 }

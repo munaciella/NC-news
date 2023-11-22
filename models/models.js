@@ -26,3 +26,11 @@ exports.selectArticlesById = (article_id) => {
         return rows[0]
     })
 }
+
+exports.insertNewCommentById = (article_id, username, body) => {
+    //const {article_id, username, body} = newComment
+    return db.query(`INSERT INTO articles(author, article_id, body) VALUES ($1, $2, $3) RETURNING*;`, [username,article_id, body])
+    .then(({result}) => {
+        return result.rows[0]
+    })
+}

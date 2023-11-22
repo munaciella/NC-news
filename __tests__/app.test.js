@@ -34,7 +34,7 @@ describe('GET /api/topics', () => {
   });
 });
 
-describe.skip('GET /api/articles/:article_id', () => {
+describe('GET /api/articles/:article_id', () => {
   test('200: responds with an article by its id', () => {
     return request(app)
       .get('/api/articles/1')
@@ -113,25 +113,20 @@ test('404: responds with an error message with invalid path', () => {
     });
 });
 
-describe.skip("POST /api/articles/2/comments", () => {
-    test("201: respond with a new comment for an article", () => {
+describe("POST /api/articles/2/comments", () => {
+    test.only("201: respond with a new comment for an article", () => {
       const newComment = {
-        username: "Pirate Hook",
-        colour: "gold",
-        
-      };
+        username: "Wolf fleece",
+        body: "This is an awesome comment",
+    };
       return request(app)
-        .post("/api/treasures")
-        .send(newTreasure)
+        .post("/api/articles/2/comments")
+        .send(newComment)
         .expect(201)
         .then(({ body }) => {
-          expect(body.treasures).toMatchObject({
-            treasure_name: expect.any(String),
-            colour: expect.any(String),
-            age: expect.any(Number),
-            cost_at_auction: expect.any(Number),
-            shop_id: expect.any(Number),
-            treasure_id: expect.any(Number),
+          expect(body.comments).toMatchObject({
+            username: expect.any(String),
+            body: expect.any(String)
           });
         });
     });
