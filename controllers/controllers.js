@@ -1,9 +1,11 @@
 const {
   selectApiTopics,
   selectArticlesById,
+  selectApiArticles
   selectCommentsByArticleId,
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
+const endPoints = require('../endpoints.json')
 
 exports.getApiTopics = (req, res, next) => {
   selectApiTopics()
@@ -36,6 +38,14 @@ exports.getCommentsByArticleId = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getApiArticles = (req, res, next) => {
+    selectApiArticles()
+    .then((articles) => {
+        res.status(200).send({ articles })
+    })
+    .catch(next)
+}
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'path not found' });
