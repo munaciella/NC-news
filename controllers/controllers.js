@@ -1,4 +1,4 @@
-const { selectApiTopics, selectApiArticles } = require('../models/models');
+const { selectApiTopics, selectApiArticles, selectArticlesById } = require('../models/models');
 const endPoints = require('../endpoints.json')
 
 exports.getApiTopics = (req, res, next) => {

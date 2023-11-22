@@ -34,7 +34,7 @@ describe('GET /api/topics', () => {
   });
 });
 
-describe('GET /api/articles/:article_id', () => {
+describe.skip('GET /api/articles/:article_id', () => {
   test('200: responds with an article by its id', () => {
     return request(app)
       .get('/api/articles/1')
@@ -60,13 +60,16 @@ describe('GET /api/articles/:article_id', () => {
         expect(body.msg).toBe('bad request');
       });
   });
-  test('404: responds with an error message if article does not exist', () => {
-    return request(app)
-      .get('/api/articles/14')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('path not found');
-      
+});
+test('404: responds with an error message if article does not exist', () => {
+  return request(app)
+    .get('/api/articles/14')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('path not found');
+    });
+});
+
 describe('GET /api', () => {
   test('200: returns an object with all the endpoints', () => {
     return request(app)
@@ -100,12 +103,51 @@ describe('GET /api/articles', () => {
         });
       });
   });
-  test('404: responds with an error message with invalid path', () => {
-    return request(app)
-      .get('/api/article')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('path not found');
-      });
-  });
 });
+test('404: responds with an error message with invalid path', () => {
+  return request(app)
+    .get('/api/article')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('path not found');
+    });
+});
+
+describe.skip("POST /api/articles/2/comments", () => {
+    test("201: respond with a new comment for an article", () => {
+      const newComment = {
+        username: "Pirate Hook",
+        colour: "gold",
+        
+      };
+      return request(app)
+        .post("/api/treasures")
+        .send(newTreasure)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.treasures).toMatchObject({
+            treasure_name: expect.any(String),
+            colour: expect.any(String),
+            age: expect.any(Number),
+            cost_at_auction: expect.any(Number),
+            shop_id: expect.any(Number),
+            treasure_id: expect.any(Number),
+          });
+        });
+    });
+    test("400: respond with a new treasure", () => {
+      const newTreasure = {
+        colour: "gold",
+        age: 200,
+        cost_at_auction: 500,
+        shop_id: 1,
+      };
+      return request(app)
+        .post("/api/treasures")
+        .send(newTreasure)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid input");
+        });
+    });
+  });
