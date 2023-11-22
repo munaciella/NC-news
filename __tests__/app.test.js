@@ -87,7 +87,6 @@ describe('GET /api/articles/:article_id/comments', () => {
       .get('/api/articles/1/comments')
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         body.comments.forEach((comment) => {
           expect(typeof comment.comment_id).toBe('number');
           expect(typeof comment.votes).toBe('number');
@@ -95,6 +94,7 @@ describe('GET /api/articles/:article_id/comments', () => {
           expect(typeof comment.author).toBe('string');
           expect(typeof comment.body).toBe('string');
           expect(typeof comment.article_id).toBe('number');
+          expect(comment.article_id).toBe(1);
         });
       });
   });
