@@ -29,7 +29,7 @@ describe('GET /api/topics', () => {
       .get('/api/topicz')
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe('path not found');
+        expect(body.msg).toBe('not found');
       });
   });
 });
@@ -66,7 +66,7 @@ test('404: responds with an error message if article does not exist', () => {
     .get('/api/articles/14')
     .expect(404)
     .then(({ body }) => {
-      expect(body.msg).toBe('path not found');
+      expect(body.msg).toBe('not found');
     });
 });
 
@@ -119,7 +119,7 @@ describe('GET /api/articles/:article_id/comments', () => {
       .get('/api/articles/99/comments')
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe('path not found');
+        expect(body.msg).toBe('not found');
       });
   });
 });
@@ -151,7 +151,7 @@ describe('GET /api/articles', () => {
       .get('/api/article')
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe('path not found');
+        expect(body.msg).toBe('not found');
       });
   });
 });
