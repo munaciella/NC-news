@@ -82,12 +82,21 @@ describe('GET /api', () => {
 });
 
 describe.skip('GET /api/articles/:article_id/comments', () => {
-  test('200: returns all comments for an article', () => {
+  test('200: returns all comments in an array for an article id', () => {
     return request(app)
-      .get('/api')
+      .get('/api/articles/3/comments')
       .expect(200)
       .then(({ body }) => {
-        expect(body).toEqual(endPoints);
+        console.log(body);
+        //const array = body['article'];
+        body.comments.forEach((comment) => {
+          expect(typeof comment.comment_id).toBe('number');
+          expect(typeof comment.votes).toBe('number');
+          expect(typeof comment.created_at).toBe('string');
+          expect(typeof comment.author).toBe('string');
+          expect(typeof comment.body).toBe('string');
+          expect(typeof comment.article_id).toBe('number');
+        });
       });
   });
 });

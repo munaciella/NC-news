@@ -16,3 +16,11 @@ exports.selectArticlesById = (article_id) => {
         return rows[0]
     })
 }
+
+exports.selectCommentsByArticleId = () => {
+    return db.query(`SELECT * FROM comments WHERE article_id = $3`, [article_id])
+    .then(({rows}) => {
+        console.log(rows);
+        return rows[0]
+    })
+}
