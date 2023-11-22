@@ -81,15 +81,13 @@ describe('GET /api', () => {
   });
 });
 
-describe.skip
-('GET /api/articles/:article_id/comments', () => {
-  test.only('200: returns all comments in an array for an article id', () => {
+describe('GET /api/articles/:article_id/comments', () => {
+  test('200: returns all comments in an array for an article id', () => {
     return request(app)
-      .get('/api/articles/3/comments')
+      .get('/api/articles/1/comments')
       .expect(200)
       .then(({ body }) => {
         console.log(body);
-        //const array = body['article'];
         body.comments.forEach((comment) => {
           expect(typeof comment.comment_id).toBe('number');
           expect(typeof comment.votes).toBe('number');
@@ -98,6 +96,30 @@ describe.skip
           expect(typeof comment.body).toBe('string');
           expect(typeof comment.article_id).toBe('number');
         });
+      });
+  });
+  test("200: responds with an empty array if article_id exists but there are no comments with that article_id", () => {
+    return request(app)
+    .get('/api/articles/2/comments')
+    .expect (200)
+    .then(({ body }) => {
+        expect(body.comments).toEqual([])
+    });
+})
+  test('400: responds with an error message if id is not a valid type', () => {
+    return request(app)
+      .get('/api/articles/apple/comments')
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('404: responds with an error message if article id does not exist', () => {
+    return request(app)
+      .get('/api/articles/99/comments')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('path not found');
       });
   });
 });

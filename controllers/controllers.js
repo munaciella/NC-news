@@ -28,10 +28,11 @@ exports.getApi = (req, res, next) => {
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  console.log(article_id);
-  selectCommentsByArticleId(article_id)
-    .then((comment) => {
-      res.status(200).send({ comment });
+  const commentsPromises = [selectCommentsByArticleId(article_id), selectArticlesById(article_id)]
+  return Promise.all(commentsPromises)
+    .then((resolvedPromises) => {
+        const comments = resolvedPromises[0]
+      res.status(200).send({ comments });
     })
     .catch(next);
 };
