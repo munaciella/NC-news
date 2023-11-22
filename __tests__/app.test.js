@@ -81,8 +81,9 @@ describe('GET /api', () => {
   });
 });
 
-describe.skip('GET /api/articles/:article_id/comments', () => {
-  test('200: returns all comments in an array for an article id', () => {
+describe.skip
+('GET /api/articles/:article_id/comments', () => {
+  test.only('200: returns all comments in an array for an article id', () => {
     return request(app)
       .get('/api/articles/3/comments')
       .expect(200)
