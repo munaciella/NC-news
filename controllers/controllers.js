@@ -3,6 +3,7 @@ const {
   selectApiArticles,
   selectArticlesById,
   insertNewCommentById,
+  selectCommentsByArticleId,
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -27,6 +28,17 @@ exports.getApi = (req, res, next) => {
   res.status(200).send(endPoints);
 };
 
+exports.getCommentsByArticleId = (req, res, next) => {
+  const { article_id } = req.params;
+  const commentsPromises = [selectCommentsByArticleId(article_id), selectArticlesById(article_id)]
+  return Promise.all(commentsPromises)
+    .then((resolvedPromises) => {
+        const comments = resolvedPromises[0]
+      res.status(200).send({ comments });
+    })
+    .catch(next);
+};
+
 exports.getApiArticles = (req, res, next) => {
   selectApiArticles()
     .then((articles) => {
@@ -46,5 +58,5 @@ exports.postNewCommentById = (req, res, next) => {
 };
 
 exports.handle404 = (req, res) => {
-  res.status(404).send({ msg: 'path not found' });
+  res.status(404).send({ msg: 'not found' });
 };
