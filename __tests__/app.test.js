@@ -242,3 +242,45 @@ describe('POST /api/articles/:article_id/comments', () => {
       });
   });
 });
+
+describe.skip('PATCH /api/articles/:article_id', () => {
+  test.only('201: respond with the updated article by article_id', () => {
+    const newVote = { votes: 10 };
+    return request(app)
+      .patch('/api/articles/5')
+      .send(newVote)
+      .expect(201)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.articles).toMatchObject({
+          title: 'UNCOVERED: catspiracy to bring down democracy',
+          topic: 'cats',
+          author: 'rogersop',
+          body: 'Bastet walks amongst us, and the cats are taking arms!',
+          created_at: 1596464040000,
+          votes: 10,
+          article_img_url:
+            'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+        });
+      });
+  });
+  test('400: update with invalid type', () => {
+    const newPrice = { cost_at_auction: 'banana' };
+    return request(app)
+      .patch('/api/treasures/1')
+      .send(newPrice)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('Invalid input');
+      });
+  });
+  test('400: update with no body', () => {
+    return request(app)
+      .patch('/api/treasures/1')
+      .send()
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('Invalid input');
+      });
+  });
+});

@@ -4,6 +4,7 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
+  updateArticleById
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -56,6 +57,16 @@ exports.postNewCommentById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.patchArticlesById = (req, res, next) => {
+    const newVote = req.body
+    const {article_id} = req.params
+    updateArticleById(newVote, article_id)
+    .then((vote) => {
+        res.status(201).send({vote})
+    })
+    .catch(next)
+}
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
