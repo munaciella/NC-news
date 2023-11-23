@@ -258,7 +258,7 @@ describe('GET /api/users', () => {
           });
         });
     });
-    test.only('404: responds with an error message with invalid path', () => {
+    test('404: responds with an error message with invalid path', () => {
       return request(app)
         .get('/api/userz')
         .expect(404)
