@@ -4,6 +4,7 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
+  deleteComment
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -56,6 +57,15 @@ exports.postNewCommentById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.deleteCommentById = (req, res, next) => {
+    const {comment_id} = req.params
+    deleteComment(comment_id)
+    .then((result) => {
+        res.status(204).send({result})
+    })
+    .catch(next)
+}
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
