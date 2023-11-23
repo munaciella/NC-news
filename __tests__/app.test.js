@@ -284,9 +284,19 @@ test('201: respond with the updated article by article_id to decrement the votes
     });
 });
 test('400: responds with an error when updating an article with an invalid input', () => {
-    const newVote = { votes: 10 };
+  const newVote = { votes: 10 };
   return request(app)
     .patch('/api/articles/one')
+    .send(newVote)
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe('bad request');
+    });
+});
+test('400: responds with an error when updating an article when a vote gets passed as a string', () => {
+  const newVote = { votes: '10' };
+  return request(app)
+    .patch('/api/articles/2')
     .send(newVote)
     .expect(400)
     .then(({ body }) => {
