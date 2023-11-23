@@ -1,7 +1,8 @@
 const {
   selectApiTopics,
-  selectArticlesById,
   selectApiArticles,
+  selectArticlesById,
+  insertNewCommentById,
   selectCommentsByArticleId,
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
@@ -39,12 +40,22 @@ exports.getCommentsByArticleId = (req, res, next) => {
 };
 
 exports.getApiArticles = (req, res, next) => {
-    selectApiArticles()
+  selectApiArticles()
     .then((articles) => {
-        res.status(200).send({ articles })
+      res.status(200).send({ articles });
     })
-    .catch(next)
-}
+    .catch(next);
+};
+
+exports.postNewCommentById = (req, res, next) => {
+  const newComment = req.body;
+  const {article_id} = req.params
+  insertNewCommentById(newComment, article_id)
+    .then((comment) => {
+      res.status(201).send({ comment });
+    })
+    .catch(next);
+};
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });

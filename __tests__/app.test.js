@@ -52,31 +52,20 @@ describe('GET /api/articles/:article_id', () => {
         });
       });
   });
-});
-test('400: responds with an error message if id is not a valid type', () => {
-  return request(app)
-    .get('/api/articles/banana')
-    .expect(400)
-    .then(({ body }) => {
-      expect(body.msg).toBe('bad request');
-    });
-});
-test('404: responds with an error message if article does not exist', () => {
-  return request(app)
-    .get('/api/articles/14')
-    .expect(404)
-    .then(({ body }) => {
-      expect(body.msg).toBe('not found');
-    });
-});
-
-describe('GET /api', () => {
-  test('200: returns an object with all the endpoints', () => {
+  test('400: responds with an error message if id is not a valid type', () => {
     return request(app)
-      .get('/api')
-      .expect(200)
+      .get('/api/articles/banana')
+      .expect(400)
       .then(({ body }) => {
-        expect(body).toEqual(endPoints);
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('404: responds with an error message if article does not exist', () => {
+    return request(app)
+      .get('/api/articles/14')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
       });
   });
 });
@@ -98,20 +87,31 @@ describe('GET /api/articles/:article_id/comments', () => {
         });
       });
   });
-  test("200: responds with an empty array if article_id exists but there are no comments with that article_id", () => {
+  test('200: responds with an empty array if article_id exists but there are no comments with that article_id', () => {
     return request(app)
-    .get('/api/articles/2/comments')
-    .expect (200)
-    .then(({ body }) => {
-        expect(body.comments).toEqual([])
-    });
-})
+      .get('/api/articles/2/comments')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments).toEqual([]);
+      });
+  });
   test('400: responds with an error message if id is not a valid type', () => {
     return request(app)
       .get('/api/articles/apple/comments')
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe('bad request');
+      });
+  });
+});
+
+describe('GET /api', () => {
+  test('200: returns an object with all the endpoints', () => {
+    return request(app)
+      .get('/api')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(endPoints);
       });
   });
   test('404: responds with an error message if article id does not exist', () => {
@@ -149,6 +149,93 @@ describe('GET /api/articles', () => {
   test('404: responds with an error message with invalid path', () => {
     return request(app)
       .get('/api/article')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+});
+
+describe('POST /api/articles/:article_id/comments', () => {
+  test('201: respond with a new comment for an article with a given id', () => {
+    const newComment = {
+      username: 'rogersop',
+      body: 'This is an awesome comment',
+    };
+    return request(app)
+      .post('/api/articles/1/comments')
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment).toMatchObject({
+          body: 'This is an awesome comment',
+          author: 'rogersop',
+        });
+      });
+  });
+  test('201: respond with a new comment ignoring unnecessary fields', () => {
+    const newComment = {
+      username: 'rogersop',
+      body: 'This is an awesome comment',
+      location: 'Ignore me',
+    };
+    return request(app)
+      .post('/api/articles/1/comments')
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment).toMatchObject({
+          body: 'This is an awesome comment',
+          author: 'rogersop',
+        });
+      });
+  });
+  test('400: respond with an error message when article id provided is not a valid type', () => {
+    const newComment = {
+      username: 'icellusedkars',
+      body: 'What an incredible article. I am in awe of this.',
+    };
+    return request(app)
+      .post('/api/articles/one/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('400: respond with an error message when missing a required field', () => {
+    const newComment = {
+      body: 'What an incredible article. I am in awe of this.',
+    };
+    return request(app)
+      .post('/api/articles/3/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('404: respond with an error message when article id provided does not exist', () => {
+    const newComment = {
+      username: 'icellusedkars',
+      body: 'What an incredible article',
+    };
+    return request(app)
+      .post('/api/articles/99/comments')
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+  test("404: If a new comment is posted with a username that doesn't exist an error will be returned", () => {
+    const newComment = {
+      username: 'CatsAreCool',
+      body: 'Hello this is my new comment',
+    };
+    return request(app)
+      .post('/api/articles/1/comments')
+      .send(newComment)
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe('not found');
