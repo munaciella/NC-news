@@ -113,36 +113,61 @@ test('404: responds with an error message with invalid path', () => {
     });
 });
 
-describe.skip("POST /api/articles/2/comments", () => {
-    test("201: respond with a new comment for an article", () => {
-      const newComment = {
-        username: "Wolf fleece",
-        body: "This is an awesome comment",
+describe('POST /api/articles/:article_id/comments', () => {
+  test('201: respond with a new comment for an article with a given id', () => {
+    const newComment = {
+      username: 'rogersop',
+      body: 'This is an awesome comment',
     };
-      return request(app)
-        .post("/api/articles/2/comments")
-        .send(newComment)
-        .expect(201)
-        .then(({ body }) => {
-          expect(body.comments).toMatchObject({
-            username: expect.any(String),
-            body: expect.any(String)
-          });
+    return request(app)
+      .post('/api/articles/1/comments')
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment).toMatchObject({
+          body: 'This is an awesome comment',
+          author: 'rogersop',
         });
-    });
-    test("400: respond with a new treasure", () => {
-      const newTreasure = {
-        colour: "gold",
-        age: 200,
-        cost_at_auction: 500,
-        shop_id: 1,
-      };
-      return request(app)
-        .post("/api/treasures")
-        .send(newTreasure)
-        .expect(400)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Invalid input");
-        });
-    });
+      });
   });
+  test('400: respond with an error message when article id provided is not a valid type', () => {
+    const newComment = {
+      username: 'icellusedkars',
+      body: 'What an incredible article. I am in awe of this.',
+    };
+    return request(app)
+      .post('/api/articles/one/comments')
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('404: respond with an error message when article id provided does not exist', () => {
+    const newComment = {
+      username: 'icellusedk',
+      body: 'What an incredible article',
+    };
+    return request(app)
+      .post('/api/articles/99/comments')
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+  test("404: If a new comment is posted with a username that doesn't exist an error will be returned", () => {
+    const newComment = {
+      username: "CatsAreCool",
+      body: "Hello this is my new comment",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        console.log(body);
+        expect(body.msg).toBe("not found");
+      });
+  });
+});

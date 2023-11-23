@@ -1,5 +1,10 @@
-const { selectApiTopics, selectApiArticles, selectArticlesById, insertNewCommentById } = require('../models/models');
-const endPoints = require('../endpoints.json')
+const {
+  selectApiTopics,
+  selectApiArticles,
+  selectArticlesById,
+  insertNewCommentById,
+} = require('../models/models');
+const endPoints = require('../endpoints.json');
 
 exports.getApiTopics = (req, res, next) => {
   selectApiTopics()
@@ -10,37 +15,36 @@ exports.getApiTopics = (req, res, next) => {
 };
 
 exports.getArticlesById = (req, res, next) => {
-    const { article_id } = req.params
-    selectArticlesById(article_id)
+  const { article_id } = req.params;
+  selectArticlesById(article_id)
     .then((article) => {
-        res.status(200).send({ article })
+      res.status(200).send({ article });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 exports.getApi = (req, res, next) => {
-        res.status(200).send(endPoints)
-    }
+  res.status(200).send(endPoints);
+};
 
 exports.getApiArticles = (req, res, next) => {
-    selectApiArticles()
+  selectApiArticles()
     .then((articles) => {
-        res.status(200).send({ articles })
+      res.status(200).send({ articles });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 exports.postNewCommentById = (req, res, next) => {
-    const newComment = req.body
-    console.log(req.body);
-    console.log(newComment);
-    insertNewCommentById(newComment)
-    .then((comments) => {
-        res.status(201).send({comments})
+  const newComment = req.body;
+  const {article_id} = req.params
+  insertNewCommentById(newComment, article_id)
+    .then((comment) => {
+      res.status(201).send({ comment });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 exports.handle404 = (req, res) => {
-    res.status(404).send({ msg: 'path not found'})
-}
+  res.status(404).send({ msg: 'path not found' });
+};
