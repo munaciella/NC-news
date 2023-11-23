@@ -242,3 +242,28 @@ describe('POST /api/articles/:article_id/comments', () => {
       });
   });
 });
+
+describe('GET /api/users', () => {
+    test('200: returns an array of users objects ', () => {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body }) => {
+            console.log(body);
+          expect(body.users).toHaveLength(4);
+          body.users.forEach((user) => {
+            expect(typeof user.avatar_url).toBe('string');
+            expect(typeof user.name).toBe('string');
+            expect(typeof user.username).toBe('string');
+          });
+        });
+    });
+    test.only('404: responds with an error message with invalid path', () => {
+      return request(app)
+        .get('/api/userz')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('not found');
+        });
+    });
+  });

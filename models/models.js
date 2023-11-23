@@ -59,3 +59,10 @@ exports.selectCommentsByArticleId = (article_id) => {
         return rows
     })
 }
+
+exports.selectApiUsers = () => {
+    return db.query(`SELECT * FROM users`)
+    .then((result) => {
+      return result.rows;
+    });
+  };

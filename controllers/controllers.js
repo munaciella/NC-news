@@ -4,6 +4,7 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
+  selectApiUsers
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -56,6 +57,14 @@ exports.postNewCommentById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getApiUsers = (req, res, next) => {
+    selectApiUsers()
+      .then((users) => {
+        res.status(200).send({ users });
+      })
+      .catch(next);
+  };
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
