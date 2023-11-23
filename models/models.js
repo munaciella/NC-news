@@ -61,12 +61,13 @@ exports.selectCommentsByArticleId = (article_id) => {
 }
 
 exports.updateArticleById = (newVote, article_id) => {
+    const newVotes = Number(newVote.votes)
     return db
     .query(
-        `UPDATE articles SET votes = $1 WHERE article_id = $2 RETURNING *;`,
-        [newVote.votes, article_id]
-    )
-    .then((result) => {
+        `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`,
+        [newVotes, article_id]
+        )
+        .then((result) => {
         return result.rows[0]
     })
 }

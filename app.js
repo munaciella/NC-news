@@ -15,6 +15,7 @@ app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 app.post('/api/articles/:article_id/comments', postNewCommentById)
 
 app.patch('/api/articles/:article_id', patchArticlesById)
+
 app.all('*', handle404)
 
 app.use(handleCustomErrors);

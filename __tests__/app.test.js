@@ -243,44 +243,63 @@ describe('POST /api/articles/:article_id/comments', () => {
   });
 });
 
-describe.skip('PATCH /api/articles/:article_id', () => {
-  test.only('201: respond with the updated article by article_id', () => {
+describe('PATCH /api/articles/:article_id', () => {
+  test('201: respond with the updated article by article_id to increment the votes', () => {
     const newVote = { votes: 10 };
     return request(app)
-      .patch('/api/articles/5')
+      .patch('/api/articles/10')
       .send(newVote)
       .expect(201)
       .then(({ body }) => {
-        console.log(body);
-        expect(body.articles).toMatchObject({
-          title: 'UNCOVERED: catspiracy to bring down democracy',
-          topic: 'cats',
+        expect(body).toMatchObject({
+          title: 'Seven inspirational thought leaders from Manchester UK',
+          topic: 'mitch',
           author: 'rogersop',
-          body: 'Bastet walks amongst us, and the cats are taking arms!',
-          created_at: 1596464040000,
+          body: "Who are we kidding, there is only one, and it's Mitch!",
+          created_at: '2020-05-14T04:15:00.000Z',
           votes: 10,
           article_img_url:
             'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
         });
       });
   });
-  test('400: update with invalid type', () => {
-    const newPrice = { cost_at_auction: 'banana' };
-    return request(app)
-      .patch('/api/treasures/1')
-      .send(newPrice)
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe('Invalid input');
+});
+test('201: respond with the updated article by article_id to decrement the votes', () => {
+  const newVote = { votes: -10 };
+  return request(app)
+    .patch('/api/articles/1')
+    .send(newVote)
+    .expect(201)
+    .then(({ body }) => {
+      expect(body).toMatchObject({
+        title: 'Living in the shadow of a great man',
+        topic: 'mitch',
+        author: 'butter_bridge',
+        body: 'I find this existence challenging',
+        created_at: '2020-07-09T20:11:00.000Z',
+        votes: 90,
+        article_img_url:
+          'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
       });
-  });
-  test('400: update with no body', () => {
-    return request(app)
-      .patch('/api/treasures/1')
-      .send()
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe('Invalid input');
-      });
-  });
+    });
+});
+test('400: responds with an error when updating an article with an invalid input', () => {
+    const newVote = { votes: 10 };
+  return request(app)
+    .patch('/api/articles/one')
+    .send(newVote)
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe('bad request');
+    });
+});
+test('404: responds with an error when trying to update an article with an article id that does not exist', () => {
+  const newVote = { votes: 10 };
+  return request(app)
+    .patch('/api/articles/99')
+    .send(newVote)
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('not found');
+    });
 });

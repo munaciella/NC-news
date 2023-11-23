@@ -61,9 +61,11 @@ exports.postNewCommentById = (req, res, next) => {
 exports.patchArticlesById = (req, res, next) => {
     const newVote = req.body
     const {article_id} = req.params
-    updateArticleById(newVote, article_id)
-    .then((vote) => {
-        res.status(201).send({vote})
+    const patchPromises = [updateArticleById(newVote, article_id), selectArticlesById(article_id)]
+    return Promise.all(patchPromises)
+    .then((resolvedPatchPromises) => {
+        const result = resolvedPatchPromises[0]
+        res.status(201).send(result)
     })
     .catch(next)
 }
