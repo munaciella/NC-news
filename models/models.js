@@ -6,36 +6,44 @@ exports.selectApiTopics = () => {
   });
 };
 
-exports.selectApiArticles = (query) => {
-  const newQuery = query.topic;
-  const queryType = Object.keys(query);
-  if (newQuery === 'mitch' && queryType.includes('topic')) {
+exports.selectApiArticles = (topic) => {
+    let queryString = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id`
+    const queryValues = []
+  if (topic) {
+    queryValues.push(topic)
+    queryString += ` WHERE topic = $1 GROUP BY articles.article_id ORDER BY created_at DESC; `
     return db
-      .query(`SELECT * FROM articles WHERE topic = $1 `, [newQuery])
-      .then((topic) => {
-        console.log(topic[0]);
-        return topic;
-      });
-  } else if (newQuery === 'cats' && queryType.includes('topic')) {
-    return db
-      .query(`SELECT * FROM articles WHERE topic = $1 `, [newQuery])
-      .then((topic) => {
-        return topic;
-      });
-  } else if (!newQuery) {
-    return db
-      .query(
-        `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments) AS comment_count FROM articles JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC`
-      )
+      .query(queryString, queryValues)
       .then((result) => {
-        return result.rows;
+        return result.rows
       });
-  } else if (!result.rows.length) {
-    return Promise.reject({ status: 404, msg: 'not found' });
-  }
-};
-
-// if (!result.rows.length) {
+      //if ()
+//   } else if ( === 'cats' && queryType.includes('topic')) {
+//     return db
+//       .query(`SELECT * FROM articles WHERE topic = $1 `, [newQuery])
+//       .then((topic) => {
+//         return topic;
+//       });
+//   } else if (!topic) {
+//     return db
+//       .query(
+//         ` GROUP BY articles.article_id ORDER BY created_at DESC`
+//       )
+//       .then((result) => {
+//         return result.rows;
+//       });
+//   } else if (!result.rows.length) {
+//     return Promise.reject({ status: 404, msg: 'not found' });
+//   }
+} else {
+    queryString += ` GROUP BY articles.article_id ORDER BY created_at DESC `
+    return db
+    .query(queryString, queryValues)
+    .then((result) => {
+        return result.rows
+      })
+}
+}
 
 exports.selectArticlesById = (article_id) => {
   return db
