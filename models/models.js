@@ -64,6 +64,20 @@ exports.selectCommentsByArticleId = (article_id) => {
     });
 };
 
+exports.deleteComment = (comment_id) => {
+  return db
+    .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *`, [
+      comment_id,
+    ])
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: 'not found' });
+      } else {
+        return rows;
+      }
+    });
+};
+
 exports.updateArticleById = (newVote, article_id) => {
   const newVotes = newVote.votes;
   if (typeof newVotes === 'number') {
