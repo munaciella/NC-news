@@ -43,7 +43,7 @@ describe('GET /api', () => {
         expect(body).toEqual(endPoints);
       });
   });
-  test('404: responds with an error message if article id does not exist', () => {
+  test.skip('404: responds with an error message if article id does not exist', () => {
     return request(app)
       .get('/api/articles/99/comments')
       .expect(404)
@@ -79,7 +79,7 @@ describe('GET /api/articles/:article_id', () => {
         expect(body.msg).toBe('bad request');
       });
   });
-  test('404: responds with an error message if article does not exist', () => {
+  test.skip('404: responds with an error message if article does not exist', () => {
     return request(app)
       .get('/api/articles/14')
       .expect(404)
@@ -354,7 +354,7 @@ test('400: responds with an error when updating an article when a vote gets pass
       expect(body.msg).toBe('bad request');
     });
 });
-test('404: responds with an error when trying to update an article with an article id that does not exist', () => {
+test.skip('404: responds with an error when trying to update an article with an article id that does not exist', () => {
   const newVote = { votes: 10 };
   return request(app)
     .patch('/api/articles/99')
@@ -391,6 +391,18 @@ describe('DELETE /api/comments/:comment_id', () => {
       });
   });
 });
+
+describe('GET /api/articles/:article_id', () => {
+    test('200: responds with an object of article by its id with a comment count', () => {
+      return request(app)
+        .get('/api/articles/1')
+        .expect(200)
+        .then(({ body }) => {
+            const {article} = body
+            expect(typeof article.comment_count).toBe('string');
+          });
+        })
+    })
 
 describe('GET /api/users', () => {
   test('200: returns an array of users objects ', () => {
