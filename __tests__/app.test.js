@@ -95,7 +95,7 @@ describe('GET /api/articles', () => {
       .get('/api/articles')
       .expect(200)
       .then(({ body }) => {
-        expect(body.articles).toHaveLength(5);
+        expect(body.articles).toHaveLength(13);
         body.articles.forEach((article) => {
           expect(typeof article.author).toBe('string');
           expect(typeof article.title).toBe('string');
@@ -294,59 +294,6 @@ describe('POST /api/articles/:article_id/comments', () => {
   });
 });
 
-describe('GET /api/articles', () => {
-  test('200: responds with a topic when given a query of mitch', () => {
-    return request(app)
-      .get('/api/articles?topic=mitch')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.articles).toHaveLength(12);
-        body.articles.forEach((article) => {
-          expect(typeof article.title).toBe('string');
-          expect(typeof article.topic).toBe('string');
-          expect(typeof article.article_id).toBe('number');
-          expect(typeof article.author).toBe('string');
-          expect(typeof article.created_at).toBe('string');
-          expect(typeof article.votes).toBe('number');
-          expect(typeof article.article_img_url).toBe('string');
-        });
-      });
-  });
-  test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
-      return request(app)
-        .get('/api/articles?topic=paper')
-        .expect(200)
-        .then(({ body }) => {
-            expect(body.articles).toEqual([]);
-        });
-    });
-  test('404: responds with an error message if path is incorrect', () => {
-    return request(app)
-      .get('/api/article?topics=cats')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('not found')
-      });
-  });
-});
-
-describe('GET /api/users', () => {
-    test('200: returns an array of users objects ', () => {
-      return request(app)
-        .get('/api/users')
-        .expect(200)
-        .then(({ body }) => {
-            console.log(body);
-          expect(body.users).toHaveLength(4);
-          body.users.forEach((user) => {
-            expect(typeof user.avatar_url).toBe('string');
-            expect(typeof user.name).toBe('string');
-            expect(typeof user.username).toBe('string');
-          });
-        });
-    });
-  });
-
 describe('PATCH /api/articles/:article_id', () => {
   test('201: respond with the updated article by article_id to increment the votes', () => {
     const newVote = { votes: 10 };
@@ -438,6 +385,58 @@ describe('DELETE /api/comments/:comment_id', () => {
   test('404: responds with an error if comment id does not exist', () => {
     return request(app)
       .delete('/api/comments/99')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+});
+
+describe('GET /api/users', () => {
+  test('200: returns an array of users objects ', () => {
+    return request(app)
+      .get('/api/users')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.users).toHaveLength(4);
+        body.users.forEach((user) => {
+          expect(typeof user.avatar_url).toBe('string');
+          expect(typeof user.name).toBe('string');
+          expect(typeof user.username).toBe('string');
+        });
+      });
+  });
+});
+
+describe('GET /api/articles', () => {
+  test('200: responds with a topic when given a query of mitch', () => {
+    return request(app)
+      .get('/api/articles?topic=mitch')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(12);
+        body.articles.forEach((article) => {
+          expect(typeof article.title).toBe('string');
+          expect(typeof article.topic).toBe('string');
+          expect(typeof article.article_id).toBe('number');
+          expect(typeof article.author).toBe('string');
+          expect(typeof article.created_at).toBe('string');
+          expect(typeof article.votes).toBe('number');
+          expect(typeof article.article_img_url).toBe('string');
+        });
+      });
+  });
+  test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
+    return request(app)
+      .get('/api/articles?topic=paper')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toEqual([]);
+      });
+  });
+  test('404: responds with an error message if path is incorrect', () => {
+    return request(app)
+      .get('/api/article?topics=cats')
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe('not found');

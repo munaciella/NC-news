@@ -4,7 +4,7 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
-  selectApiUsers
+  selectApiUsers,
   deleteComment,
   updateArticleById
 } = require('../models/models');
