@@ -6,17 +6,21 @@ exports.selectApiTopics = () => {
   });
 };
 
-exports.selectApiArticles = () => {
-  return db
-    .query(
-      `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments) AS comment_count FROM articles JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC`
-    )
-    .then((result) => {
-      if (!result.rows.length) {
-        return Promise.reject({ status: 404, msg: 'not found' });
-      }
+exports.selectApiArticles = (topic) => {
+  let queryString = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id`;
+  const queryValues = [];
+  if (topic) {
+    queryValues.push(topic);
+    queryString += ` WHERE topic = $1 GROUP BY articles.article_id ORDER BY created_at DESC; `;
+    return db.query(queryString, queryValues).then((result) => {
       return result.rows;
     });
+  } else {
+    queryString += ` GROUP BY articles.article_id ORDER BY created_at DESC `;
+    return db.query(queryString, queryValues).then((result) => {
+      return result.rows;
+    });
+  }
 };
 
 exports.selectArticlesById = (article_id) => {
