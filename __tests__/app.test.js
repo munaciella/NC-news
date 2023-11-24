@@ -242,3 +242,15 @@ describe('POST /api/articles/:article_id/comments', () => {
       });
   });
 });
+
+describe.skip("GET /api/articles", () => {
+    test('200: responds with a topic when given a query of mitch', () => {
+        return request(app)
+        .get('/api/articles?topic=mitch')
+        .expect(200)
+        .then(({body}) =>{
+            expect(body.rows).toHaveLength(1)
+            expect(body.rows[0].topic).toBe('cats')
+        })
+    });
+})
