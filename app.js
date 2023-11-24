@@ -10,6 +10,7 @@ app.get('/api/topics', getApiTopics)
 app.get('/api', getApi)
 app.get('/api/articles', getApiArticles)
 app.get('/api/articles/:article_id', getArticlesById)
+
 app.post('/api/articles/:article_id/comments', postNewCommentById)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 

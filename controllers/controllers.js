@@ -40,7 +40,8 @@ exports.getCommentsByArticleId = (req, res, next) => {
 };
 
 exports.getApiArticles = (req, res, next) => {
-  selectApiArticles()
+    const query = req.query
+  selectApiArticles(query)
     .then((articles) => {
       res.status(200).send({ articles });
     })
@@ -56,6 +57,8 @@ exports.postNewCommentById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
