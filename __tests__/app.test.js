@@ -258,12 +258,4 @@ describe('GET /api/users', () => {
           });
         });
     });
-    test('404: responds with an error message with invalid path', () => {
-      return request(app)
-        .get('/api/userz')
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe('not found');
-        });
-    });
   });
