@@ -54,6 +54,18 @@ exports.selectArticlesById = (article_id) => {
 };
 
 exports.selectCommentsByArticleId = (article_id) => {
+    return db.query(`SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC`, [article_id])
+    .then(({rows}) => {
+        return rows
+    })
+}
+
+exports.selectApiUsers = () => {
+    return db.query(`SELECT * FROM users`)
+    .then((result) => {
+      return result.rows;
+    });
+  };
   return db
     .query(
       `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC`,

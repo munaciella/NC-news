@@ -4,6 +4,7 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
+  selectApiUsers
   deleteComment,
   updateArticleById
 } = require('../models/models');
@@ -58,6 +59,14 @@ exports.postNewCommentById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getApiUsers = (req, res, next) => {
+    selectApiUsers()
+      .then((users) => {
+        res.status(200).send({ users });
+      })
+      .catch(next);
+  };
 
 exports.deleteCommentById = (req, res, next) => {
     const {comment_id} = req.params

@@ -243,6 +243,23 @@ describe('POST /api/articles/:article_id/comments', () => {
   });
 });
 
+describe('GET /api/users', () => {
+    test('200: returns an array of users objects ', () => {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body }) => {
+            console.log(body);
+          expect(body.users).toHaveLength(4);
+          body.users.forEach((user) => {
+            expect(typeof user.avatar_url).toBe('string');
+            expect(typeof user.name).toBe('string');
+            expect(typeof user.username).toBe('string');
+          });
+        });
+    });
+  });
+
 describe('PATCH /api/articles/:article_id', () => {
   test('201: respond with the updated article by article_id to increment the votes', () => {
     const newVote = { votes: 10 };
