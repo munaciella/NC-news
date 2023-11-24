@@ -242,3 +242,74 @@ describe('POST /api/articles/:article_id/comments', () => {
       });
   });
 });
+
+describe('PATCH /api/articles/:article_id', () => {
+  test('201: respond with the updated article by article_id to increment the votes', () => {
+    const newVote = { votes: 10 };
+    return request(app)
+      .patch('/api/articles/10')
+      .send(newVote)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          title: 'Seven inspirational thought leaders from Manchester UK',
+          topic: 'mitch',
+          author: 'rogersop',
+          body: "Who are we kidding, there is only one, and it's Mitch!",
+          created_at: '2020-05-14T04:15:00.000Z',
+          votes: 10,
+          article_img_url:
+            'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+        });
+      });
+  });
+});
+test('201: respond with the updated article by article_id to decrement the votes', () => {
+  const newVote = { votes: -10 };
+  return request(app)
+    .patch('/api/articles/1')
+    .send(newVote)
+    .expect(201)
+    .then(({ body }) => {
+      expect(body).toMatchObject({
+        title: 'Living in the shadow of a great man',
+        topic: 'mitch',
+        author: 'butter_bridge',
+        body: 'I find this existence challenging',
+        created_at: '2020-07-09T20:11:00.000Z',
+        votes: 90,
+        article_img_url:
+          'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+      });
+    });
+});
+test('400: responds with an error when updating an article with an invalid input', () => {
+  const newVote = { votes: 10 };
+  return request(app)
+    .patch('/api/articles/one')
+    .send(newVote)
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe('bad request');
+    });
+});
+test('400: responds with an error when updating an article when a vote gets passed as a string', () => {
+  const newVote = { votes: '10' };
+  return request(app)
+    .patch('/api/articles/2')
+    .send(newVote)
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe('bad request');
+    });
+});
+test('404: responds with an error when trying to update an article with an article id that does not exist', () => {
+  const newVote = { votes: 10 };
+  return request(app)
+    .patch('/api/articles/99')
+    .send(newVote)
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('not found');
+    });
+});
