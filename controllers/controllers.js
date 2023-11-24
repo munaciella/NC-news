@@ -64,6 +64,9 @@ exports.deleteCommentById = (req, res, next) => {
     deleteComment(comment_id)
     .then(() => {
         res.status(204).send()
+    })
+    .catch(next)
+}
 
 exports.patchArticlesById = (req, res, next) => {
     const newVote = req.body
@@ -79,4 +82,4 @@ exports.patchArticlesById = (req, res, next) => {
 
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
-};
+}

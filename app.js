@@ -12,13 +12,11 @@ app.get('/api/articles', getApiArticles)
 app.get('/api/articles/:article_id', getArticlesById)
 app.get('/api/articles/:article_id/comments', getCommentsByArticleId)
 
-
-app.delete('/api/comments/:comment_id', deleteCommentById)
-
 app.post('/api/articles/:article_id/comments', postNewCommentById)
 
 app.patch('/api/articles/:article_id', patchArticlesById)
 
+app.delete('/api/comments/:comment_id', deleteCommentById)
 
 app.all('*', handle404)
 

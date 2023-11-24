@@ -34,6 +34,25 @@ describe('GET /api/topics', () => {
   });
 });
 
+describe('GET /api', () => {
+  test('200: returns an object with all the endpoints', () => {
+    return request(app)
+      .get('/api')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual(endPoints);
+      });
+  });
+  test('404: responds with an error message if article id does not exist', () => {
+    return request(app)
+      .get('/api/articles/99/comments')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+});
+
 describe('GET /api/articles/:article_id', () => {
   test('200: responds with an article by its id', () => {
     return request(app)
@@ -63,6 +82,38 @@ describe('GET /api/articles/:article_id', () => {
   test('404: responds with an error message if article does not exist', () => {
     return request(app)
       .get('/api/articles/14')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+});
+
+describe('GET /api/articles', () => {
+  test('200: returns an array of articles objects', () => {
+    return request(app)
+      .get('/api/articles')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(5);
+        body.articles.forEach((article) => {
+          expect(typeof article.author).toBe('string');
+          expect(typeof article.title).toBe('string');
+          expect(typeof article.article_id).toBe('number');
+          expect(typeof article.topic).toBe('string');
+          expect(typeof article.created_at).toBe('string');
+          expect(typeof article.votes).toBe('number');
+          expect(typeof article.article_img_url).toBe('string');
+          expect(typeof article.comment_count).toBe('string');
+          expect(body.articles).toBeSortedBy('created_at', {
+            descending: true,
+          });
+        });
+      });
+  });
+  test('404: responds with an error message with invalid path', () => {
+    return request(app)
+      .get('/api/article')
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe('not found');
@@ -101,57 +152,6 @@ describe('GET /api/articles/:article_id/comments', () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe('bad request');
-      });
-  });
-});
-
-describe('GET /api', () => {
-  test('200: returns an object with all the endpoints', () => {
-    return request(app)
-      .get('/api')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body).toEqual(endPoints);
-      });
-  });
-  test('404: responds with an error message if article id does not exist', () => {
-    return request(app)
-      .get('/api/articles/99/comments')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('not found');
-      });
-  });
-});
-
-describe('GET /api/articles', () => {
-  test('200: returns an array of articles objects', () => {
-    return request(app)
-      .get('/api/articles')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.articles).toHaveLength(5);
-        body.articles.forEach((article) => {
-          expect(typeof article.author).toBe('string');
-          expect(typeof article.title).toBe('string');
-          expect(typeof article.article_id).toBe('number');
-          expect(typeof article.topic).toBe('string');
-          expect(typeof article.created_at).toBe('string');
-          expect(typeof article.votes).toBe('number');
-          expect(typeof article.article_img_url).toBe('string');
-          expect(typeof article.comment_count).toBe('string');
-          expect(body.articles).toBeSortedBy('created_at', {
-            descending: true,
-          });
-        });
-      });
-  });
-  test('404: responds with an error message with invalid path', () => {
-    return request(app)
-      .get('/api/article')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('not found');
       });
   });
 });
@@ -243,33 +243,6 @@ describe('POST /api/articles/:article_id/comments', () => {
   });
 });
 
-describe('DELETE /api/comments/:comment_id', () => {
-    test('204: responds with a deleted comment', () => {
-      return request(app)
-        .delete('/api/comments/1')
-        .expect(204)
-        .then(({ body }) => {
-          expect(body).toEqual({});
-        });
-    });
-    test('400: responds with an error if invalid input', () => {
-        return request(app)
-        .delete('/api/comments/banana')
-        .expect(400)
-        .then(({ body }) => {
-            expect(body.msg).toBe('bad request');
-          });
-      });
-      test('404: responds with an error if comment id does not exist', () => {
-        return request(app)
-          .delete('/api/comments/99')
-          .expect(404)
-          .then(({ body }) => {
-            expect(body.msg).toBe('not found');
-          });
-      });
-  });
-  
 describe('PATCH /api/articles/:article_id', () => {
   test('201: respond with the updated article by article_id to increment the votes', () => {
     const newVote = { votes: 10 };
@@ -339,4 +312,31 @@ test('404: responds with an error when trying to update an article with an artic
     .then(({ body }) => {
       expect(body.msg).toBe('not found');
     });
+});
+
+describe('DELETE /api/comments/:comment_id', () => {
+  test('204: responds with a deleted comment', () => {
+    return request(app)
+      .delete('/api/comments/1')
+      .expect(204)
+      .then(({ body }) => {
+        expect(body).toEqual({});
+      });
+  });
+  test('400: responds with an error if invalid input', () => {
+    return request(app)
+      .delete('/api/comments/banana')
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('bad request');
+      });
+  });
+  test('404: responds with an error if comment id does not exist', () => {
+    return request(app)
+      .delete('/api/comments/99')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
 });
