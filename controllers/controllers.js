@@ -4,6 +4,9 @@ const {
   selectArticlesById,
   insertNewCommentById,
   selectCommentsByArticleId,
+  selectApiUsers
+  deleteComment,
+  updateArticleById
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -61,6 +64,35 @@ exports.postNewCommentById = (req, res, next) => {
     .catch(next);
 };
 
+exports.getApiUsers = (req, res, next) => {
+    selectApiUsers()
+      .then((users) => {
+        res.status(200).send({ users });
+      })
+      .catch(next);
+  };
+
+exports.deleteCommentById = (req, res, next) => {
+    const {comment_id} = req.params
+    deleteComment(comment_id)
+    .then(() => {
+        res.status(204).send()
+    })
+    .catch(next)
+}
+
+exports.patchArticlesById = (req, res, next) => {
+    const newVote = req.body
+    const {article_id} = req.params
+    const patchPromises = [updateArticleById(newVote, article_id), selectArticlesById(article_id)]
+    return Promise.all(patchPromises)
+    .then((resolvedPatchPromises) => {
+        const result = resolvedPatchPromises[0]
+        res.status(201).send(result)
+    })
+    .catch(next)
+}
+
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
-};
+}
