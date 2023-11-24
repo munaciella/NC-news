@@ -58,8 +58,6 @@ exports.postNewCommentById = (req, res, next) => {
     .catch(next);
 };
 
-exports.
-
 exports.handle404 = (req, res) => {
   res.status(404).send({ msg: 'not found' });
 };

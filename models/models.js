@@ -60,7 +60,3 @@ exports.selectCommentsByArticleId = (article_id) => {
         return rows
     })
 }
-
-exports.selectArticleByQuery = () => {
-
-}
