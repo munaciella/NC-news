@@ -27,7 +27,7 @@ exports.selectArticlesById = (article_id) => {
     )
     .then(({ rows }) => {
       if (!rows.length) {
-        return Promise.reject({ status: 404, msg: 'path not found' });
+        return Promise.reject({ status: 404, msg: 'not found' });
       }
       return rows[0];
     });
