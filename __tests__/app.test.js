@@ -43,7 +43,7 @@ describe('GET /api', () => {
         expect(body).toEqual(endPoints);
       });
   });
-  test.skip('404: responds with an error message if article id does not exist', () => {
+  test('404: responds with an error message if article id does not exist', () => {
     return request(app)
       .get('/api/articles/99/comments')
       .expect(404)
