@@ -392,6 +392,59 @@ describe('DELETE /api/comments/:comment_id', () => {
   });
 });
 
+
+describe('GET /api/users', () => {
+    test('200: returns an array of users objects ', () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.users).toHaveLength(4);
+            body.users.forEach((user) => {
+                expect(typeof user.avatar_url).toBe('string');
+                expect(typeof user.name).toBe('string');
+                expect(typeof user.username).toBe('string');
+            });
+        });
+    });
+});
+
+describe('GET /api/articles', () => {
+    test('200: responds with a topic when given a query of mitch', () => {
+        return request(app)
+        .get('/api/articles?topic=mitch')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.articles).toHaveLength(12);
+            body.articles.forEach((article) => {
+                expect(typeof article.title).toBe('string');
+                expect(typeof article.topic).toBe('string');
+                expect(typeof article.article_id).toBe('number');
+                expect(typeof article.author).toBe('string');
+                expect(typeof article.created_at).toBe('string');
+                expect(typeof article.votes).toBe('number');
+                expect(typeof article.article_img_url).toBe('string');
+            });
+        });
+    });
+    test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
+        return request(app)
+        .get('/api/articles?topic=paper')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.articles).toEqual([]);
+        });
+    });
+    test('404: responds with an error message if path is incorrect', () => {
+        return request(app)
+        .get('/api/article?topics=cats')
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('not found');
+        });
+    });
+});
+
 describe('GET /api/articles/:article_id', () => {
     test('200: responds with an object of article by its id with a comment count', () => {
       return request(app)
@@ -403,55 +456,3 @@ describe('GET /api/articles/:article_id', () => {
           });
         })
     })
-
-describe('GET /api/users', () => {
-  test('200: returns an array of users objects ', () => {
-    return request(app)
-      .get('/api/users')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.users).toHaveLength(4);
-        body.users.forEach((user) => {
-          expect(typeof user.avatar_url).toBe('string');
-          expect(typeof user.name).toBe('string');
-          expect(typeof user.username).toBe('string');
-        });
-      });
-  });
-});
-
-describe('GET /api/articles', () => {
-  test('200: responds with a topic when given a query of mitch', () => {
-    return request(app)
-      .get('/api/articles?topic=mitch')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.articles).toHaveLength(12);
-        body.articles.forEach((article) => {
-          expect(typeof article.title).toBe('string');
-          expect(typeof article.topic).toBe('string');
-          expect(typeof article.article_id).toBe('number');
-          expect(typeof article.author).toBe('string');
-          expect(typeof article.created_at).toBe('string');
-          expect(typeof article.votes).toBe('number');
-          expect(typeof article.article_img_url).toBe('string');
-        });
-      });
-  });
-  test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
-    return request(app)
-      .get('/api/articles?topic=paper')
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.articles).toEqual([]);
-      });
-  });
-  test('404: responds with an error message if path is incorrect', () => {
-    return request(app)
-      .get('/api/article?topics=cats')
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe('not found');
-      });
-  });
-});
