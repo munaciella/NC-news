@@ -79,7 +79,7 @@ describe('GET /api/articles/:article_id', () => {
         expect(body.msg).toBe('bad request');
       });
   });
-  test.skip('404: responds with an error message if article does not exist', () => {
+  test('404: responds with an error message if article does not exist', () => {
     return request(app)
       .get('/api/articles/14')
       .expect(404)
@@ -354,7 +354,7 @@ test('400: responds with an error when updating an article when a vote gets pass
       expect(body.msg).toBe('bad request');
     });
 });
-test.skip('404: responds with an error when trying to update an article with an article id that does not exist', () => {
+test('404: responds with an error when trying to update an article with an article id that does not exist', () => {
   const newVote = { votes: 10 };
   return request(app)
     .patch('/api/articles/99')
