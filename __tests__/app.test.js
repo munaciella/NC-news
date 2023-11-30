@@ -404,3 +404,70 @@ describe('GET /api/articles/:article_id', () => {
           });
         })
     })
+
+    // describe('GET /api/articles sorting quries sort_by and order', () => {
+    //   test('allows a sort_by query eg /api/articles?sort_by=votes ', () => {
+    //     return request(app)
+    //       .get('/api/articles?sort_by=votes')
+    //       .expect(200)
+    //       .then(({ body: { articles } }) => {
+    //         expect(articles).toBeSortedBy('votes', { descending: true })
+    //       })
+    //   })
+    //   test('allows a order query eg /api/articles?order=ASC ', () => {
+    //     return request(app)
+    //       .get('/api/articles?order=ASC')
+    //       .expect(200)
+    //       .then(({ body: { articles } }) => {
+    //         expect(articles).toBeSortedBy('created_at', { descending: false })
+    //       })
+    //   })
+    //   test('should provide right error when passed incorrect catagory', () => {
+    //     return request(app)
+    //       .get('/api/articles?sort_by=error')
+    //       .expect(400)
+    //       .then(({ body }) => {
+    //         expect(body.msg).toBe('Bad Request')
+    //       })
+    //   })
+    //   test('should provide error when passed incorrect order', () => {
+    //     return request(app)
+    //       .get('/api/articles?order=error')
+    //       .expect(400)
+    //       .then(({ body }) => {
+    //         expect(body.msg).toBe('Bad Request')
+    //       })
+    //   })
+    //   test('should provide error when passed invalid query', () => {
+    //     return request(app)
+    //       .get('/api/articles?invalid=error')
+    //       .expect(400)
+    //       .then(({ body }) => {
+    //         expect(body.msg).toBe('Bad Request')
+    //       })
+    //   })
+    // })
+
+    // describe('GET users by username /api/users/:username', () => {
+    //   test('should return user based on username', () => {
+    //     return request(app)
+    //       .get('/api/users/rogersop')
+    //       .expect(200)
+    //       .then(({ body: { user } }) => {
+    //         expect(user).toEqual({
+    //           username: 'rogersop',
+    //           name: 'paul',
+    //           avatar_url:
+    //             'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+    //         })
+    //       })
+    //   })
+    //   test('should give back error for a username that isnt found', () => {
+    //     return request(app)
+    //       .get('/api/users/theinvisiblemannotfound')
+    //       .expect(404)
+    //       .then(({ body }) => {
+    //         expect(body.msg).toBe('Not Found')
+    //       })
+    //   })
+    // })

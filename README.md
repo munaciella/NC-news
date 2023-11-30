@@ -1,10 +1,26 @@
-# Northcoders News API
+NC News App API - Francesco Vurchio
+If you wish to clone the repo and run locally you must create a .env.development file within the main news folder containing a link to the correct database. In this instance this will be PGDATABASE=nc_news. If you wish to run test data, a .env.test file can be created with the link PGDATABASE=nc_news_test in the same folder.
 
-Welcome to NC News!
-Two files are added into the .gitignore file:
-.env.development
-.env.test
-To replicate this on your pc, you can do the following steps:
-1. Create a .env.test file and a .env.development file
-2. In the setup.sql file there are two commands CREATE and DROP
-3. Add the relevent commands into the relevant file i.e CREATE DATABASE, DROP DATABASE
+If you would like to visit the hosted site please visit : https://nc-news-bgp4.onrender.com
+
+Summary
+This project hosts a database of articles with comments by users linked to each article. Each article can be searched as well as comments associated with that article. New posts can be made to existing articles.
+
+Instructions to clone
+.env files will be required to allow the database to work as above. Seed scripts are provided to begin by creating databases.
+
+The dev-dependencies used are as follows:
+
+husky
+jest
+jest-extended
+jest-sorted
+pg-format
+supertest
+
+The dependencies used are as follows:
+
+dotenv
+express
+pg
+For testing use the scripts to populate the PSQL database and run test files through jest. Created using node v18.13.0 & PostgresSQL v15.4.
