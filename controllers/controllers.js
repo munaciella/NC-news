@@ -6,7 +6,8 @@ const {
   selectCommentsByArticleId,
   selectApiUsers,
   deleteComment,
-  updateArticleById
+  updateArticleById,
+  selectUsername
 } = require('../models/models');
 const endPoints = require('../endpoints.json');
 
@@ -71,6 +72,15 @@ exports.getApiUsers = (req, res, next) => {
       })
       .catch(next);
   };
+
+  exports.getUserByUsername = (req, res, next) => {
+    const username = req.params.username
+    selectUsername(username)
+      .then((user) => {
+        res.status(200).send({ user })
+      })
+      .catch(next)
+  }
 
 exports.deleteCommentById = (req, res, next) => {
     const {comment_id} = req.params

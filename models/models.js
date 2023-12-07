@@ -66,6 +66,16 @@ exports.selectApiUsers = () => {
   });
 };
 
+exports.selectUsername = (username) => {
+  return db
+    .query(`SELECT * FROM users WHERE username = $1;`, [username])
+    .then((result) => {
+      if (!result.rows.length) {
+        return Promise.reject({ status: 404, msg: 'not found' })
+      } else return result.rows[0]
+    })
+}
+
 exports.deleteComment = (comment_id) => {
   return db
     .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *`, [

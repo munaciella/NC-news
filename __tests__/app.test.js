@@ -6,7 +6,7 @@ const testData = require('../db/data/test-data/index');
 const endPoints = require('../endpoints.json');
 
 afterAll(() => {
-    db.end();
+  db.end();
 });
 
 beforeEach(() => seed(testData));
@@ -342,132 +342,132 @@ describe('DELETE /api/comments/:comment_id', () => {
 });
 
 describe('GET /api/users', () => {
-    test('200: returns an array of users objects ', () => {
-        return request(app)
-        .get('/api/users')
-        .expect(200)
-        .then(({ body }) => {
-            expect(body.users).toHaveLength(4);
-            body.users.forEach((user) => {
-                expect(typeof user.avatar_url).toBe('string');
-                expect(typeof user.name).toBe('string');
-                expect(typeof user.username).toBe('string');
-            });
+  test('200: returns an array of users objects ', () => {
+    return request(app)
+      .get('/api/users')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.users).toHaveLength(4);
+        body.users.forEach((user) => {
+          expect(typeof user.avatar_url).toBe('string');
+          expect(typeof user.name).toBe('string');
+          expect(typeof user.username).toBe('string');
         });
-    });
+      });
+  });
 });
 
 describe('GET /api/articles', () => {
-    test('200: responds with a topic when given a query of mitch', () => {
-        return request(app)
-        .get('/api/articles?topic=mitch')
-        .expect(200)
-        .then(({ body }) => {
-            expect(body.articles).toHaveLength(12);
-            body.articles.forEach((article) => {
-                expect(typeof article.title).toBe('string');
-                expect(typeof article.topic).toBe('string');
-                expect(typeof article.article_id).toBe('number');
-                expect(typeof article.author).toBe('string');
-                expect(typeof article.created_at).toBe('string');
-                expect(typeof article.votes).toBe('number');
-                expect(typeof article.article_img_url).toBe('string');
-            });
+  test('200: responds with a topic when given a query of mitch', () => {
+    return request(app)
+      .get('/api/articles?topic=mitch')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(12);
+        body.articles.forEach((article) => {
+          expect(typeof article.title).toBe('string');
+          expect(typeof article.topic).toBe('string');
+          expect(typeof article.article_id).toBe('number');
+          expect(typeof article.author).toBe('string');
+          expect(typeof article.created_at).toBe('string');
+          expect(typeof article.votes).toBe('number');
+          expect(typeof article.article_img_url).toBe('string');
         });
-    });
-    test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
-        return request(app)
-        .get('/api/articles?topic=paper')
-        .expect(200)
-        .then(({ body }) => {
-            expect(body.articles).toEqual([]);
-        });
-    });
-    test('404: responds with an error message if path is incorrect', () => {
-        return request(app)
-        .get('/api/article?topics=cats')
-        .expect(404)
-        .then(({ body }) => {
-            expect(body.msg).toBe('not found');
-        });
-    });
+      });
+  });
+  test('200: responds with an empty array if the topic we are trying to search has no articles', () => {
+    return request(app)
+      .get('/api/articles?topic=paper')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toEqual([]);
+      });
+  });
+  test('404: responds with an error message if path is incorrect', () => {
+    return request(app)
+      .get('/api/article?topics=cats')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
 });
 
 describe('GET /api/articles/:article_id', () => {
-    test('200: responds with an object of article by its id with a comment count', () => {
-      return request(app)
-        .get('/api/articles/1')
-        .expect(200)
-        .then(({ body }) => {
-            const {article} = body
-            expect(typeof article.comment_count).toBe('string');
-          });
-        })
-    })
+  test('200: responds with an object of article by its id with a comment count', () => {
+    return request(app)
+      .get('/api/articles/1')
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(typeof article.comment_count).toBe('string');
+      });
+  });
+});
 
-    // describe('GET /api/articles sorting quries sort_by and order', () => {
-    //   test('allows a sort_by query eg /api/articles?sort_by=votes ', () => {
-    //     return request(app)
-    //       .get('/api/articles?sort_by=votes')
-    //       .expect(200)
-    //       .then(({ body: { articles } }) => {
-    //         expect(articles).toBeSortedBy('votes', { descending: true })
-    //       })
-    //   })
-    //   test('allows a order query eg /api/articles?order=ASC ', () => {
-    //     return request(app)
-    //       .get('/api/articles?order=ASC')
-    //       .expect(200)
-    //       .then(({ body: { articles } }) => {
-    //         expect(articles).toBeSortedBy('created_at', { descending: false })
-    //       })
-    //   })
-    //   test('should provide right error when passed incorrect catagory', () => {
-    //     return request(app)
-    //       .get('/api/articles?sort_by=error')
-    //       .expect(400)
-    //       .then(({ body }) => {
-    //         expect(body.msg).toBe('Bad Request')
-    //       })
-    //   })
-    //   test('should provide error when passed incorrect order', () => {
-    //     return request(app)
-    //       .get('/api/articles?order=error')
-    //       .expect(400)
-    //       .then(({ body }) => {
-    //         expect(body.msg).toBe('Bad Request')
-    //       })
-    //   })
-    //   test('should provide error when passed invalid query', () => {
-    //     return request(app)
-    //       .get('/api/articles?invalid=error')
-    //       .expect(400)
-    //       .then(({ body }) => {
-    //         expect(body.msg).toBe('Bad Request')
-    //       })
-    //   })
-    // })
+// describe('GET /api/articles sorting quries sort_by and order', () => {
+//   test('allows a sort_by query eg /api/articles?sort_by=votes ', () => {
+//     return request(app)
+//       .get('/api/articles?sort_by=votes')
+//       .expect(200)
+//       .then(({ body: { articles } }) => {
+//         expect(articles).toBeSortedBy('votes', { descending: true })
+//       })
+//   })
+//   test('allows a order query eg /api/articles?order=ASC ', () => {
+//     return request(app)
+//       .get('/api/articles?order=ASC')
+//       .expect(200)
+//       .then(({ body: { articles } }) => {
+//         expect(articles).toBeSortedBy('created_at', { descending: false })
+//       })
+//   })
+//   test('should provide right error when passed incorrect catagory', () => {
+//     return request(app)
+//       .get('/api/articles?sort_by=error')
+//       .expect(400)
+//       .then(({ body }) => {
+//         expect(body.msg).toBe('Bad Request')
+//       })
+//   })
+//   test('should provide error when passed incorrect order', () => {
+//     return request(app)
+//       .get('/api/articles?order=error')
+//       .expect(400)
+//       .then(({ body }) => {
+//         expect(body.msg).toBe('Bad Request')
+//       })
+//   })
+//   test('should provide error when passed invalid query', () => {
+//     return request(app)
+//       .get('/api/articles?invalid=error')
+//       .expect(400)
+//       .then(({ body }) => {
+//         expect(body.msg).toBe('Bad Request')
+//       })
+//   })
+// })
 
-    // describe('GET users by username /api/users/:username', () => {
-    //   test('should return user based on username', () => {
-    //     return request(app)
-    //       .get('/api/users/rogersop')
-    //       .expect(200)
-    //       .then(({ body: { user } }) => {
-    //         expect(user).toEqual({
-    //           username: 'rogersop',
-    //           name: 'paul',
-    //           avatar_url:
-    //             'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
-    //         })
-    //       })
-    //   })
-    //   test('should give back error for a username that isnt found', () => {
-    //     return request(app)
-    //       .get('/api/users/theinvisiblemannotfound')
-    //       .expect(404)
-    //       .then(({ body }) => {
-    //         expect(body.msg).toBe('Not Found')
-    //       })
-    //   })
-    // })
+describe('GET users by username /api/users/:username', () => {
+  test('should return user based on username', () => {
+    return request(app)
+      .get('/api/users/rogersop')
+      .expect(200)
+      .then(({ body: { user } }) => {
+        expect(user).toEqual({
+          username: 'rogersop',
+          name: 'paul',
+          avatar_url:
+            'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+        });
+      });
+  });
+  test('should give back error for a username that isnt found', () => {
+    return request(app)
+      .get('/api/users/theinvisiblemannotfound')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+});
