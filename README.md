@@ -4,6 +4,10 @@ NC News app API is built for the purpose of accessing application data programma
 
 ##LINK TO THE HOSTED VERSION OF NORTHCODERS NEWS API CAN BE FOUND HERE: https://nc-news-bgp4.onrender.com
 
+##LINK TO THE DEPLOYED VERSION OF NORTHCODERS NEWS FRONTEND PROJECT CAN BE FOUND HERE: https://munaciella-news.netlify.app/ 
+
+##LINK TO THE NORTHCODERS NEWS API GITHUB REPOSITORY CAN BE FOUND HERE: https://github.com/munaciella/nc-news-
+
 If you wish to contribute to this repository please follow this steps.
 
 ###FORK THIS REPOSITORY: - On GitHub.com, navigate to the munaciella/NC-news repository. - In the top-right corner of the page, click Fork. - Under "Owner," select the dropdown menu and click an owner for the forked repository. - Click Create fork.
