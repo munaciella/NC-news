@@ -1,39 +1,121 @@
-NC News App API - Francesco Vurchio
+NC News App API
 
-NC News app API is built for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service (such as Reddit) which should provide this information to the front end architecture.
+Author: Francesco Vurchio
 
-##LINK TO THE HOSTED VERSION OF NORTHCODERS NEWS API CAN BE FOUND HERE: https://nc-news-bgp4.onrender.com
+NC News app API is a backend service designed to programmatically access application data. Inspired by platforms like Reddit, it mimics a real-world backend architecture by providing endpoints to interact with the data used by the frontend application.
 
-##LINK TO THE DEPLOYED VERSION OF NORTHCODERS NEWS FRONTEND PROJECT CAN BE FOUND HERE: https://munaciella-news.netlify.app/ 
+Hosted Versions
+	•	Backend (API): NC News API
+	•	Frontend: NC News Frontend
 
-##LINK TO THE NORTHCODERS NEWS API GITHUB REPOSITORY CAN BE FOUND HERE: https://github.com/munaciella/nc-news-
+Repository Links
+	•	API GitHub Repository: NC News API Repository
 
-If you wish to contribute to this repository please follow this steps.
+Getting Started
 
-###FORK THIS REPOSITORY: - On GitHub.com, navigate to the munaciella/NC-news repository. - In the top-right corner of the page, click Fork. - Under "Owner," select the dropdown menu and click an owner for the forked repository. - Click Create fork.
+If you’d like to contribute or set up the project locally, follow the steps below.
 
-###CLONE YOUR FORK LOCALLY: - On GitHub.com, navigate to your fork of the NC-news. - Above the list of files, click Code. - Copy the URL for the repository. - Open Terminal. - Change the current working directory to the location where you want the cloned directory. - Type git clone, and then paste the URL you copied earlier. - Press Enter. Your local clone will be created.
+1. Fork This Repository
 
-###INSTALL DEPENDENCIES: - after opening the repository in VS Code navigate to your terminal and run the following commands: \* npm install
+To create your own copy of this repository:
+	1.	Navigate to the NC News API GitHub Repository.
+	2.	In the top-right corner of the page, click Fork.
+	3.	Under “Owner,” select your GitHub account or an organization you manage.
+	4.	Click Create fork.
 
-###ADD THE FOLLOWING FILES AT THE TOP LEVEL OF THE MAIN FOLDER: - .env.test with PGDATABASE=nc_news_test as the environment variable. - .env.development with PGDATABASE=nc_news_development as the environment variable.
+2. Clone Your Fork Locally
+	1.	Navigate to your forked repository on GitHub.
+	2.	Click the Code button, then copy the HTTPS or SSH URL.
+	3.	Open your terminal.
+	4.	Change the directory to where you’d like to store the cloned repository:
 
-###SEED THE DATABASE: - in your terminal run following commands: _ npm run setup-dbs _ npm run seed
+cd /your/desired/directory
 
-###RUN THE TESTS: - in your terminal run following commands: _ npm run test utils.test.js (to run utils tests) _ npm run test app.test.js (to run app tests) OR \* npm run test (to run all test files)
 
-The dev-dependencies used are as follows:
+	5.	Clone the repository using the following command:
 
-husky
-jest
-jest-extended
-jest-sorted
-pg-format
-supertest
+git clone <your-repository-url>
 
-The dependencies used are as follows:
 
-dotenv
-express
-pg
-For testing use the scripts to populate the PSQL database and run test files through jest. The minimum version of Node.js to run the project is >=27.2.5 The minimum version of Postgres to run the project is >=8.0
+	6.	Navigate into the cloned repository directory:
+
+cd nc-news
+
+3. Install Dependencies
+
+After opening the repository in your code editor (e.g., VS Code):
+	1.	Open the terminal and run:
+
+npm install
+
+4. Add Environment Variables
+
+Create the following environment files in the root directory:
+	1.	.env.test:
+
+PGDATABASE=nc_news_test
+
+
+	2.	.env.development:
+
+PGDATABASE=nc_news_development
+
+5. Set Up and Seed the Database
+
+To prepare the database:
+	1.	Run the following commands in your terminal:
+
+npm run setup-dbs
+npm run seed
+
+6. Run Tests
+
+To ensure everything is working correctly, run the tests:
+	•	To run utility function tests:
+
+npm run test utils.test.js
+
+
+	•	To test the app endpoints:
+
+npm run test app.test.js
+
+
+	•	To run all test files:
+
+npm run test
+
+Dev Dependencies
+
+The following development dependencies are used in this project:
+	•	Husky: For managing Git hooks.
+	•	Jest: For unit and integration testing.
+	•	Jest-Extended: Provides additional matchers for Jest.
+	•	Jest-Sorted: Adds functionality to test array sorting in Jest.
+	•	pg-format: A library for safely formatting SQL queries.
+	•	Supertest: For HTTP assertions and endpoint testing.
+
+Contribution Guidelines
+
+If you wish to contribute:
+	1.	Follow the steps above to fork, clone, and set up the project locally.
+	2.	Create a new branch for your feature or bug fix:
+
+git checkout -b feature-name
+
+
+	3.	Make your changes and commit them with a descriptive message:
+
+git commit -m "Add a brief description of the changes"
+
+
+	4.	Push your changes to your fork:
+
+git push origin feature-name
+
+
+	5.	Open a pull request from your branch to the main branch of this repository.
+
+License
+
+This project is open-source and available under the MIT License.
