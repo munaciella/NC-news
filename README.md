@@ -34,56 +34,72 @@ cd /your/desired/directory
 
 	5.	Clone the repository using the following command:
 
-git clone <your-repository-url>
+```bash
+git clone https://github.com/munaciella/NC-news.git
+```
 
 
 	6.	Navigate into the cloned repository directory:
 
-cd nc-news
+```bash
+cd NC-news
+```
 
 3. Install Dependencies
 
 After opening the repository in your code editor (e.g., VS Code):
 	1.	Open the terminal and run:
 
+```bash
 npm install
+```
 
 4. Add Environment Variables
 
 Create the following environment files in the root directory:
 	1.	.env.test:
 
+```bash
 PGDATABASE=nc_news_test
+```
 
 
 	2.	.env.development:
 
+```bash
 PGDATABASE=nc_news_development
+```
 
 5. Set Up and Seed the Database
 
 To prepare the database:
 	1.	Run the following commands in your terminal:
 
+```bash
 npm run setup-dbs
 npm run seed
+```
 
 6. Run Tests
 
 To ensure everything is working correctly, run the tests:
 	•	To run utility function tests:
 
+```bash
 npm run test utils.test.js
-
+```
 
 	•	To test the app endpoints:
 
+```bash
 npm run test app.test.js
-
+```
 
 	•	To run all test files:
 
+```bash
 npm run test
+```
 
 Dev Dependencies
 
@@ -101,18 +117,21 @@ If you wish to contribute:
 	1.	Follow the steps above to fork, clone, and set up the project locally.
 	2.	Create a new branch for your feature or bug fix:
 
+```bash
 git checkout -b feature-name
-
+```
 
 	3.	Make your changes and commit them with a descriptive message:
 
+```bash
 git commit -m "Add a brief description of the changes"
-
+```
 
 	4.	Push your changes to your fork:
 
+```bash
 git push origin feature-name
-
+```
 
 	5.	Open a pull request from your branch to the main branch of this repository.
 
